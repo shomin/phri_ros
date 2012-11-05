@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+<title>PHRI Web Interface</title>
+<link rel="stylesheet" href="themes/bb-mobile.min.css" />
+<link rel="stylesheet" href="themes/jquery.mobile.structure-1.1.0.min.css" />
+<link rel="stylesheet" href="themes/rjs.css" />
+<script src="js/jquery-1.7.1.min.js"></script>
+<script src="js/jquery.mobile-1.1.0.min.js"></script>
+<script src="js/kinetic-v4.0.2.min.js"></script>
+<script type="text/javascript" src="js/ros.js"></script>
+<script type="text/javascript" src="js/phri_web.js"></script>
+</head>
+
+<body>
+<div data-role="page" data-theme="a" id="main_page">
+
+<div data-role="content" data-theme="a">
+
+<div id="hmsg" class="msgbox" style="display: none;"></div>
+
+<div data-role="collapsible-set" id="cset" name="cset">
+  <div data-role="collapsible">
+  <h3>Servos</h3>
+  <label for="slider1">Head:</label>
+  <input type="range" name="slider1" id="slider1" value="50" min="0"
+  max="100" data-theme="a" data-highlight="true" />
+  <label for="slider2">Left Arm:</label>
+  <input type="range" name="slider2" id="slider2" value="50" min="0"
+  max="100" data-theme="a" data-highlight="true" />
+  <label for="slider3">Right Arm:</label>
+  <input type="range" name="slider3" id="slider3" value="50" min="0"
+  max="100" data-theme="a" data-highlight="true" />
+</div>
+
+<div data-role="collapsible">
+  <h3>Speech</h3>
+  <a data-role="button" data-mini="true" id="say_hi"  onClick="sayHi()">Say Hi</a>
+  <a data-role="button" data-mini="true" id="say_hi"  onClick="sayNSH()">Test Speech</a>
+  <a data-role="button" data-mini="true" id="clear_log" onClick="clear_log()">Clear Log</a>
+  <div id="console" class="console"></div>
+</div>
+
+<div data-role="collapsible">
+  <fieldset data-role="controlgroup"  data-type="horizontal" data-role="fieldcontain">
+  <legend>Zero Velocity on Release:</legend>
+  <input type="radio" name="radio-choice-a1" id="radio-choice-a1" value="on" checked="checked" />
+  <label for="radio-choice-a1">Yes</label>
+  <input type="radio" name="radio-choice-a1" id="radio-choice-b1" value="off"  />
+  <label for="radio-choice-b1">No</label>
+  <a data-role="button" id="stopDrive"  onClick="stopDrive()">Stop!</a>
+  </fieldset>
+
+
+  
+  <h3>Drive</h3>
+  <div id="kintest"></div>
+</div>
+
+</div>
+
+</div>
+</div>
+</body>
+</html>

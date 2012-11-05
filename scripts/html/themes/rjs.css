@@ -1,0 +1,20 @@
+td {
+    padding: .1em .1em;
+    text-align: right;
+	font: 76% arial,sans-serif;
+}
+
+.msgbox {
+    margin: 1px;
+    text-align: center;
+	background: #FFC848;
+	font-weight:bold;
+    padding: .1em .5em;
+}
+
+.console {
+    padding: 1em .8em;
+    text-align: left;
+    font-family: monospace;
+	outline:grey solid 1px;
+}

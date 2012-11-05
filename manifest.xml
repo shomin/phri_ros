@@ -1,0 +1,18 @@
+<package>
+  <description brief="phri_ros">
+
+     phri_ros
+
+  </description>
+  <author>Michael Shomin</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/phri_ros</url>
+  <depend package="rospy"/>
+  <depend package="rosbridge"/>
+  <depend package="std_msgs"/>
+  <depend package="geometry_msgs"/>
+
+</package>
+
+
