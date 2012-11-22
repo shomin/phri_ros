@@ -1,0 +1,3 @@
+<launch>
+  <node pkg="phri_ros" name="speech" type="speech.py" output="screen"/>
+</launch>
