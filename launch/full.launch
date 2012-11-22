@@ -1,7 +1,6 @@
 <launch>
   <param name="/brown/rosbridge/hz" value="100"/>
   <node pkg="rosbridge" type="rosbridge.py" name="ros_bridge" output="screen"/> 	
-  <node pkg="phri_ros" name="m2_connect" type="m2_connect.py" output="screen"/>
   <node pkg="phri_ros" name="cp_server" type="cp_server.py" output="screen"/>
   <node pkg="phri_ros" name="speech" type="speech.py" output="screen"/>
   <node pkg="phri_ros" name="gpio" type="gpio.py" output="screen"/>

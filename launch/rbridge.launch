@@ -1,5 +1,0 @@
-<launch>
-  <param name="/brown/rosbridge/hz" value="500"/>
-  <node pkg="rosbridge" type="rosbridge.py" name="ros_bridge" output="screen"/> 	
-  <node pkg="guiball" type="js_tester.py" name="jst" output="screen"/> 	
-</launch>
