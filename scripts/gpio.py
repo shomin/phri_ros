@@ -6,7 +6,8 @@ import wiringpi as wp
 
 from std_msgs.msg import ColorRGBA
 from std_msgs.msg import Empty
-from goemetry_msgs.msg import Twist
+from std_msgs.msg import Float32
+from geometry_msgs.msg import Twist
 import os
 
 os_setup = '''#! /bin/sh 
@@ -122,8 +123,8 @@ class Gpio:
 	def twistCallback(self,msg):
 		l = msg.linear.x + msg.angular.z
 		r = msg.linear.x - msg.angular.z
-		lmotor(Float32(l))
-		rmotor(Float32(r))
+		self.lmotor(Float32(l))
+		self.rmotor(Float32(r))
 
 
 
