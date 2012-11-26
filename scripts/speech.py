@@ -24,15 +24,15 @@ class Speech:
 		rospy.loginfo("Starting Speech")
 		self.sub = rospy.Subscriber("speech", SpeechMsg, self.cb)
 		self.pub = rospy.Publisher("done_speaking", Empty)
-		#self.tts = Festival()
+		self.tts = Festival()
 	def cb(self, msg):
 		if(msg.voice == "clear"):
 			os.system("clear")
 		else:
-			#os.system("clear")
+			os.system("clear")
 			self.screenprint(msg.screen)
-			#self.tts.say(msg.voice)
-			# send done_speaking message
+			self.tts.say(msg.voice)
+			self.pub.publish(Empty())
 	def screenprint(self, data):
 		# We want the text to look like "Press the {red, fg=white, bg=red} button."  The double/single quotes must follow this pattern.  Assumes that any whitespace is a single space.  The string to be colored cannot contain any commas.  There must be a spaces before and after the {} section.
 
