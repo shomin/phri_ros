@@ -178,7 +178,7 @@ function stopDrive(){
 
 function speech1(){
 	log("Sending Speech Test 1");
-	connection.publish('/speech', 'phri_ros/SpeechMsg', '{"voice":"This is a ,,,, test","screen":"This is a {test,fg=blue,bg=green}"}');
+	connection.publish('/speech', 'phri_ros/SpeechMsg', '{"voice":"This is a ,,,, test","screen":"This is a {test, fg=blue, bg=green}"}');
 }
 
 function speech2(){
@@ -188,7 +188,7 @@ function speech2(){
 
 function speech3(){
 	log("Sending Speech Test 3");
-	connection.publish('/speech', 'phri_ros/SpeechMsg', '{"voice":"Colors are a wonderful thing","screen":"{test,fg=red,bg=green} {test,fg=yellow,bg=red} {test,fg=cyan,bg=blue} {test,fg=red,bg=yellow}"}');
+	connection.publish('/speech', 'phri_ros/SpeechMsg', '{"voice":"Colors are a wonderful thing","screen":"{test, fg=red, bg=green} {test, fg=yellow, bg=red} {test, fg=cyan, bg=blue} {test, fg=red, bg=yellow}"}');
 }
 
 function speech4(){
