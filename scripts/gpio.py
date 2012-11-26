@@ -6,7 +6,7 @@ import wiringpi as wp
 
 from std_msgs.msg import ColorRGBA
 from std_msgs.msg import Empty
-from std_msgs.msg import Float32
+from goemetry_msgs.msg import Twist
 import os
 
 os_setup = '''#! /bin/sh 
@@ -68,6 +68,8 @@ class Gpio:
 		self.l_motor_sub = rospy.Subscriber("left_motor", Float32, self.lmotor)
 		self.r_motor_sub = rospy.Subscriber("right_motor", Float32, self.rmotor)
 
+		self.twistsub = rospy.Subscriber("cmd_vel", Twist, self.twistCallback)
+
 		self.ybut_pub = rospy.Publisher("yes", Empty)
 		self.nbut_pub = rospy.Publisher("no", Empty)
 
@@ -89,22 +91,22 @@ class Gpio:
 
 	def lmotor(self, msg):
 		if msg.data>=0.0:
-			self.io.digitalWrite(23,1)
-			self.io.digitalWrite(24,0)
-			wp.softPwmWrite(22, int(msg.data*self.pwm_range))
-		else:
 			self.io.digitalWrite(23,0)
 			self.io.digitalWrite(24,1)
+			wp.softPwmWrite(22, int(msg.data*self.pwm_range))
+		else:
+			self.io.digitalWrite(23,1)
+			self.io.digitalWrite(24,0)
 			wp.softPwmWrite(22, int(-msg.data*self.pwm_range))
 
 	def rmotor(self, msg):
 		if msg.data>=0.0:
-			self.io.digitalWrite(10,1)
-			self.io.digitalWrite(9,0)
-			wp.softPwmWrite(25, int(msg.data*self.pwm_range))
-		else:
 			self.io.digitalWrite(10,0)
 			self.io.digitalWrite(9,1)
+			wp.softPwmWrite(25, int(msg.data*self.pwm_range))
+		else:
+			self.io.digitalWrite(10,1)
+			self.io.digitalWrite(9,0)
 			wp.softPwmWrite(25, int(-msg.data*self.pwm_range))
 
 	def check_buttons(self, event):
@@ -116,6 +118,14 @@ class Gpio:
 			if(event.current_real - self.no_time) > self.button_offtime:
 				self.nbut_pub.publish(Empty())
 				self.no_time = event.current_real
+
+	def twistCallback(self,msg):
+		l = msg.linear.x + msg.angular.z
+		r = msg.linear.x - msg.angular.z
+		lmotor(Float32(l))
+		rmotor(Float32(r))
+
+
 
 
 if __name__ == '__main__':

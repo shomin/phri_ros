@@ -41,11 +41,11 @@ function ws_connect(address, port) {
 
 		//first publish doesn't seem to work, so publishing a dummy message 
 		//so that the first button click publlish works
-		connection.publish('/speech', 'std_msgs/String', '{"data":""}');
-		connection.publish('/head', 'std_msgs/UInt8', '{"data":0}');
-		connection.publish('/larm', 'std_msgs/UInt8', '{"data":0}');
-		connection.publish('/rarm', 'std_msgs/UInt8', '{"data":0}');
-		connection.publish('/cmd_vel', 'geometry_msgs/Twist', '{"linear":{"x":0,"y":0,"z":0}, "angular":{"x":0,"y":0,"z":0}}');
+		//connection.publish('/speech', 'std_msgs/String', '{"data":""}');
+	connection.publish('/cmd_vel', 'geometry_msgs/Twist', '{"linear":{"x":0,"y":0,"z":0}, "angular":{"x":0,"y":0,"z":0}}');
+	connection.publish('/teleop_yes', 'std_msgs/Empty', '{}');
+	connection.publish('/teleop_no', 'std_msgs/Empty', '{}');
+	connection.publish('/do_nothing', 'std_msgs/Empty', '{}');
 
 
 		//subscribe to web_message (later we'll make this some filtered form of rosout
@@ -64,12 +64,12 @@ $( document ).delegate("#main_page", "pageinit", function() {
 
 	ws_connect("192.168.1.1", "9090");
 
-	$( "#slider1" ).bind( "change", function(event, ui) {
-		connection.publish('/head', 'std_msgs/UInt8', '{"data":' + $('#slider1')[0].value + '}');	});
-	$( "#slider2" ).bind( "change", function(event, ui) {
-		connection.publish('/larm', 'std_msgs/UInt8', '{"data":' + $('#slider1')[0].value + '}');	});
-	$( "#slider3" ).bind( "change", function(event, ui) {
-		connection.publish('/rarm', 'std_msgs/UInt8', '{"data":' + $('#slider1')[0].value + '}');	});
+    /*$( "#slider1" ).bind( "change", function(event, ui) {
+	connection.publish('/head', 'std_msgs/UInt8', '{"data":' + $('#slider1')[0].value + '}');	});
+    $( "#slider2" ).bind( "change", function(event, ui) {
+	connection.publish('/larm', 'std_msgs/UInt8', '{"data":' + $('#slider1')[0].value + '}');	});
+    $( "#slider3" ).bind( "change", function(event, ui) {
+	connection.publish('/rarm', 'std_msgs/UInt8', '{"data":' + $('#slider1')[0].value + '}');	});*/
 
     var stage = new Kinetic.Stage({
         container: 'kintest',
@@ -169,10 +169,21 @@ function sayHi(){
 	connection.publish('/speech', 'std_msgs/String', '{"data":"Hello Illah"}');
 }
 
-function sayNSH(){
-	log("saying: Will you take me to the NSH Atrium?");
-	connection.publish('/speech', 'std_msgs/String', '{"data":"Will you take me to the NSH Atrium?"}');
+function yes(){
+    log("Sending Teleop Yes");
+	connection.publish('/teleop_yes', 'std_msgs/Empty', '{}');
 }
+
+function no(){
+    log("Sending Teleop No");
+	connection.publish('/teleop_no', 'std_msgs/Empty', '{}');
+}
+
+function do_nothing(){
+    log("Sending Teleop Do Nothing");
+	connection.publish('/do_nothing', 'std_msgs/Empty', '{}');
+}
+
 
 function writeMessage(messageLayer, message) {
     var context = messageLayer.getContext();
