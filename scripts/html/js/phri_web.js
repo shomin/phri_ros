@@ -65,8 +65,8 @@ $( document ).delegate("#main_page", "pageinit", function() {
 	msg_fade('DOM Ready');
 	log('DOM Ready');
 
-	//ws_connect("192.168.1.1", "9090");
-	ws_connect("127.0.0.1", "9090");
+	ws_connect("192.168.1.1", "9090");
+	//ws_connect("127.0.0.1", "9090");
 
     $( "#lr" ).bind( "change", function(event, ui) {
 	connection.publish('/left_eye', 'std_msgs/ColorRGBA', '{"r":' + $('#lr')[0].value/100.0 + ',"g":' + $('#lg')[0].value/100.0 + ',"b":' + $('#lb')[0].value/100.0 + '}');	});
@@ -175,9 +175,9 @@ function stopDrive(){
 	connection.publish('/cmd_vel', 'geometry_msgs/Twist', '{"linear":{"x":0,"y":0,"z":0}, "angular":{"x":0,"y":0,"z":0}}');
 }
 
-function sayHi(){
-	log("saying: Hello Illah");
-	connection.publish('/speech', 'std_msgs/String', '{"data":"Hello Illah"}');
+function speech1(){
+	log("Sending Speech Test 1");
+	connection.publish('/speech', 'phri_ros/SpeechMsg', '{"voice":"This is a ,,,, test","screen":"This is a {\'test\',fg=\'red\'}"}');
 }
 
 function yes(){
