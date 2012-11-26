@@ -1,0 +1,2 @@
+string voice
+string screen
