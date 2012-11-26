@@ -31,21 +31,23 @@ class Speech:
 		else:
 			os.system("clear")
 			self.screenprint(msg.screen)
-			self.tts.say(msg.voice)
+			#self.tts.say(msg.voice)
 			self.pub.publish(Empty())
 	def screenprint(self, data):
-		# We want the text to look like "Press the {red, fg=white, bg=red} button."  The double/single quotes must follow this pattern.  Assumes that any whitespace is a single space.  The string to be colored cannot contain any commas.  There must be a spaces before and after the {} section.
+		# We want the text to look like "Press the {red, fg=white, bg=red} button."  Assumes that any whitespace is a single space.  The string to be colored cannot contain any commas.  There must be a spaces before and after the {} section unless it is at one end of the string.  There must be spaces after the commas in the coloring arguments.
 
 		# Step through and insert linebreaks, ignoring parameters
-		data = self.addLinebreaks(data, 20)
+		data = self.addLinebreaks(data, 18)
 		# Break apart based on curly braces and print with colors
 		while data:
 			a = data.partition("{")
 			sys.stdout.write(a[0])
+			sys.stdout.flush()
 			if a[1]:
 				b = a[2]
 				c = b.partition("}")
 				self.cprintParse(c[0])
+				sys.stdout.flush()
 				data = c[2]
 			else:
 				data = a[2]
@@ -73,7 +75,6 @@ class Speech:
 				ctr = 0
 			newData = newData + " " + word
 			ctr = ctr + n + 1
-		newData = newData + "\n"
 		return newData
 	def cprintParse(self, s):
 		lst = s.split(",")
