@@ -121,8 +121,8 @@ class Gpio:
 				self.no_time = event.current_real
 
 	def twistCallback(self,msg):
-		l = msg.linear.x + msg.angular.z
-		r = msg.linear.x - msg.angular.z
+		l = msg.linear.x - msg.angular.z
+		r = msg.linear.x + msg.angular.z
 		self.lmotor(Float32(l))
 		self.rmotor(Float32(r))
 

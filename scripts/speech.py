@@ -37,7 +37,7 @@ class Speech:
 		# We want the text to look like "Press the {red, fg=white, bg=red} button."  The double/single quotes must follow this pattern.  Assumes that any whitespace is a single space.  The string to be colored cannot contain any commas.  There must be a spaces before and after the {} section.
 
 		# Step through and insert linebreaks, ignoring parameters
-		data = self.addLinebreaks(data, 10)
+		data = self.addLinebreaks(data, 20)
 		# Break apart based on curly braces and print with colors
 		while data:
 			a = data.partition("{")

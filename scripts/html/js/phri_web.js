@@ -38,7 +38,6 @@ function ws_connect(address, port) {
     connection.setOnOpen(function (e) {
         msg_fade('Connected to Rosbridge');
 		log('Connected to Rosbridge');
-
 		//first publish doesn't seem to work, so publishing a dummy message 
 		//so that the first button click publlish works
 		//connection.publish('/speech', 'std_msgs/String', '{"data":""}');
@@ -49,6 +48,8 @@ function ws_connect(address, port) {
 
 	connection.publish('/left_eye', 'std_msgs/ColorRGBA', '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}');
 	connection.publish('/right_eye', 'std_msgs/ColorRGBA', '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}');
+
+
 
 
 		//subscribe to web_message (later we'll make this some filtered form of rosout
@@ -177,8 +178,25 @@ function stopDrive(){
 
 function speech1(){
 	log("Sending Speech Test 1");
-	connection.publish('/speech', 'phri_ros/SpeechMsg', '{"voice":"This is a ,,,, test","screen":"This is a {\'test\',fg=\'red\'}"}');
+	connection.publish('/speech', 'phri_ros/SpeechMsg', '{"voice":"This is a ,,,, test","screen":"This is a {test,fg=blue,bg=green}"}');
 }
+
+function speech2(){
+	log("Sending Speech Test 2");
+	connection.publish('/speech', 'phri_ros/SpeechMsg', '{"voice":"1 2 3 et cetera","screen":"12345678901234567890 1234567890 12345"}');
+}
+
+function speech3(){
+	log("Sending Speech Test 3");
+	connection.publish('/speech', 'phri_ros/SpeechMsg', '{"voice":"Colors are a wonderful thing","screen":"{test,fg=red,bg=green} {test,fg=yellow,bg=red} {test,fg=cyan,bg=blue} {test,fg=red,bg=yellow}"}');
+}
+
+function speech4(){
+	log("Sending Speech Test 3");
+	connection.publish('/speech', 'phri_ros/SpeechMsg', '{"voice":"Numbers!","screen":"1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 "}');
+}
+
+
 
 function yes(){
     log("Sending Teleop Yes");
