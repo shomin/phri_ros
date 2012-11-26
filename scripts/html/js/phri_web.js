@@ -47,6 +47,9 @@ function ws_connect(address, port) {
 	connection.publish('/teleop_no', 'std_msgs/Empty', '{}');
 	connection.publish('/do_nothing', 'std_msgs/Empty', '{}');
 
+	connection.publish('/left_eye', 'std_msgs/ColorRGBA', '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}');
+	connection.publish('/right_eye', 'std_msgs/ColorRGBA', '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}');
+
 
 		//subscribe to web_message (later we'll make this some filtered form of rosout
 		sub_to_webmsg();
@@ -62,14 +65,22 @@ $( document ).delegate("#main_page", "pageinit", function() {
 	msg_fade('DOM Ready');
 	log('DOM Ready');
 
-	ws_connect("192.168.1.1", "9090");
+	//ws_connect("192.168.1.1", "9090");
+	ws_connect("127.0.0.1", "9090");
 
-    /*$( "#slider1" ).bind( "change", function(event, ui) {
-	connection.publish('/head', 'std_msgs/UInt8', '{"data":' + $('#slider1')[0].value + '}');	});
-    $( "#slider2" ).bind( "change", function(event, ui) {
-	connection.publish('/larm', 'std_msgs/UInt8', '{"data":' + $('#slider1')[0].value + '}');	});
-    $( "#slider3" ).bind( "change", function(event, ui) {
-	connection.publish('/rarm', 'std_msgs/UInt8', '{"data":' + $('#slider1')[0].value + '}');	});*/
+    $( "#lr" ).bind( "change", function(event, ui) {
+	connection.publish('/left_eye', 'std_msgs/ColorRGBA', '{"r":' + $('#lr')[0].value/100.0 + ',"g":' + $('#lg')[0].value/100.0 + ',"b":' + $('#lb')[0].value/100.0 + '}');	});
+    $( "#lg" ).bind( "change", function(event, ui) {
+	connection.publish('/left_eye', 'std_msgs/ColorRGBA', '{"r":' + $('#lr')[0].value/100.0 + ',"g":' + $('#lg')[0].value/100.0 + ',"b":' + $('#lb')[0].value/100.0 + '}');	});
+    $( "#lb" ).bind( "change", function(event, ui) {
+	connection.publish('/left_eye', 'std_msgs/ColorRGBA', '{"r":' + $('#lr')[0].value/100.0 + ',"g":' + $('#lg')[0].value/100.0 + ',"b":' + $('#lb')[0].value/100.0 + '}');	});
+
+    $( "#rr" ).bind( "change", function(event, ui) {
+	connection.publish('/right_eye', 'std_msgs/ColorRGBA', '{"r":' + $('#rr')[0].value/100.0 + ',"g":' + $('#rg')[0].value/100.0 + ',"b":' + $('#rb')[0].value/100.0 + '}');	});
+    $( "#rg" ).bind( "change", function(event, ui) {
+	connection.publish('/right_eye', 'std_msgs/ColorRGBA', '{"r":' + $('#rr')[0].value/100.0 + ',"g":' + $('#rg')[0].value/100.0 + ',"b":' + $('#rb')[0].value/100.0 + '}');	});
+    $( "#rb" ).bind( "change", function(event, ui) {
+	connection.publish('/right_eye', 'std_msgs/ColorRGBA', '{"r":' + $('#rr')[0].value/100.0 + ',"g":' + $('#rg')[0].value/100.0 + ',"b":' + $('#rb')[0].value/100.0 + '}');	});
 
     var stage = new Kinetic.Stage({
         container: 'kintest',

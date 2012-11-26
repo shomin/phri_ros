@@ -27,7 +27,7 @@
   <h3>Teleop</h3>
   <a data-role="button" data-mini="true" id="tyes"  onClick="yes()">Teleop Yes</a>
   <a data-role="button" data-mini="true" id="tno"  onClick="no()">Teleop No</a>
-  <a data-role="button" data-mini="true" id="tdn"  onClick="do_nothing()">Teleop No</a>
+  <a data-role="button" data-mini="true" id="tdn"  onClick="do_nothing()">Do Nothing</a>
   <div id="console" class="console"></div>
   <a data-role="button" data-mini="true" id="clear_log" onClick="clear_log()">Clear Log</a>
 </div>
@@ -50,17 +50,33 @@
 
 <div data-role="collapsible">
   <h3>Eyes</h3>
-  <label for="slider1">LR:</label>
-  <input type="range" name="lr" id="lr" value=".5" min="0"
-  max="1.0" data-theme="a" data-highlight="true" />
 
-  <label for="slider1">LG:</label>
-  <input type="range" name="lg" id="lg" value=".5" min="0"
-  max="1.0" data-theme="a" data-highlight="true" />
+  <label for="lr">LR:</label>
+  <input type="range" name="lr" id="lr" value="0" min="0"
+  max="100" data-theme="a" data-highlight="true" />
 
-  <label for="slider1">LB:</label>
-  <input type="range" name="lb" id="lb" value=".5" min="0"
-  max="1.0" data-theme="a" data-highlight="true" />
+  <label for="lg">LG:</label>
+  <input type="range" name="lg" id="lg" value="0" min="0"
+  max="100" data-theme="a" data-highlight="true" />
+
+  <label for="lb">LB:</label>
+  <input type="range" name="lb" id="lb" value="0" min="0"
+  max="100" data-theme="a" data-highlight="true" />
+</br>
+</br>
+  <label for="rr">RR:</label>
+  <input type="range" name="rr" id="rr" value="0" min="0"
+  max="100" data-theme="a" data-highlight="true" />
+
+  <label for="rg">RG:</label>
+  <input type="range" name="rg" id="rg" value="0" min="0"
+  max="100" data-theme="a" data-highlight="true" />
+
+  <label for="rb">RB:</label>
+  <input type="range" name="rb" id="rb" value="0" min="0"
+  max="100" data-theme="a" data-highlight="true" />
+
+
 </div>
 
 
