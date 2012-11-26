@@ -81,14 +81,14 @@ class Gpio:
 		self.no_time = rospy.Time()
 
 	def leye(self, msg):
-		wp.softPwmWrite(17, int(msg.r*self.pwm_range))
-		wp.softPwmWrite(21, int(msg.g*self.pwm_range))
-		wp.softPwmWrite(18, int(msg.b*self.pwm_range))
-
-	def reye(self, msg):
 		wp.softPwmWrite(11, int(msg.r*self.pwm_range))
 		wp.softPwmWrite(7, int(msg.g*self.pwm_range))
 		wp.softPwmWrite(8, int(msg.b*self.pwm_range))
+
+	def reye(self, msg):
+		wp.softPwmWrite(17, int(msg.r*self.pwm_range))
+		wp.softPwmWrite(21, int(msg.g*self.pwm_range))
+		wp.softPwmWrite(18, int(msg.b*self.pwm_range))
 
 	def lmotor(self, msg):
 		if msg.data>=0.0:
