@@ -42,8 +42,7 @@ function ws_connect(address, port) {
 		//so that the first button click publlish works
 		//connection.publish('/speech', 'std_msgs/String', '{"data":""}');
 	connection.publish('/cmd_vel', 'geometry_msgs/Twist', '{"linear":{"x":0,"y":0,"z":0}, "angular":{"x":0,"y":0,"z":0}}');
-	connection.publish('/yes', 'std_msgs/Empty', '{}');
-	connection.publish('/no', 'std_msgs/Empty', '{}');
+	connection.publish('/buttons', 'std_msgs/Bool', '{"data":false}');
 	connection.publish('/teleop', 'std_msgs/Empty', '{}');
 
 	connection.publish('/left_eye', 'std_msgs/ColorRGBA', '{"r":0.0,"g":0.0,"b":0.0,"a":0.0}');
@@ -196,16 +195,16 @@ function speech4(){
 	connection.publish('/speech', 'phri_ros/SpeechMsg', '{"voice":"Numbers!","screen":"1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 "}');
 }
 
-
-
 function yes(){
     log("Sending Teleop Yes");
-	connection.publish('/yes', 'std_msgs/Empty', '{}');
+	connection.publish('/buttons', 'std_msgs/Bool', '{"data":true}');
+	//connection.publish('/yes', 'std_msgs/Empty', '{}');
 }
 
 function no(){
     log("Sending Teleop No");
-	connection.publish('/no', 'std_msgs/Empty', '{}');
+	connection.publish('/buttons', 'std_msgs/Bool', '{"data":false}');
+	//connection.publish('/no', 'std_msgs/Empty', '{}');
 }
 
 function do_nothing(){

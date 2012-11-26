@@ -7,6 +7,7 @@ import wiringpi as wp
 from std_msgs.msg import ColorRGBA
 from std_msgs.msg import Empty
 from std_msgs.msg import Float32
+from std_msgs.msg import Bool
 from geometry_msgs.msg import Twist
 import os
 
@@ -71,8 +72,8 @@ class Gpio:
 
 		self.twistsub = rospy.Subscriber("cmd_vel", Twist, self.twistCallback)
 
-		self.ybut_pub = rospy.Publisher("yes", Empty)
-		self.nbut_pub = rospy.Publisher("no", Empty)
+		self.button_pub = rospy.Publisher("buttons", Bool)
+
 
                 rospy.loginfo("Starting Button Query Timers")		
 		rospy.Timer(rospy.Duration(1.0/self.button_Hz), self.check_buttons)
@@ -114,10 +115,11 @@ class Gpio:
 		if self.io.digitalRead(15)==0:
 			if(event.current_real - self.yes_time) > self.button_offtime:
 				self.ybut_pub.publish(Empty())
+				self.button_pub.publish(Bool(True))
 				self.yes_time = event.current_real
 		if self.io.digitalRead(14)==0:
 			if(event.current_real - self.no_time) > self.button_offtime:
-				self.nbut_pub.publish(Empty())
+				self.button_pub.publish(Bool(False))
 				self.no_time = event.current_real
 
 	def twistCallback(self,msg):
