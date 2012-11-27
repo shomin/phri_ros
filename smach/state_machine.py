@@ -154,7 +154,7 @@ class Acknowledge(smach.State):
         userdata.byeType = 'exit'
         self.button = ''
         self.lpub.publish(LEDMsg('GREENFLASH'))
-        self.lpub.publish(LEDMsg(self.wifiVals[userdata.number]))
+        self.lpub.publish(LEDMsg(self.wifiVals[userdata.number - 1]))
         self.spub.publish(SpeechMsg(script['acknowledge'+nstr][0], script['acknowledge'+nstr][1]))
         while not self.button and not rospy.is_shutdown():
             rospy.sleep(1.0)
