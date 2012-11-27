@@ -21,11 +21,30 @@ class Teleop(smach.State):
     def __init__(self):
         smach.State.__init__(self, outcomes=['yes', ''])
         self.sub = rospy.Subscriber("/buttons", Bool, self.buttonsCB)
+        self.script_sub = rospy.Subscriber("/script", Int8, self.scriptCB)
+        self.pub = rospy.Publisher("/speech", SpeechMsg)		
         self.button = ''
 
     def buttonsCB(self, msg):
         if msg.data:
             self.button = 'yes'
+
+    def scriptCB(self, msg):
+		if msg.data == 0:
+            script = scriptsPy.base
+			self.pub.publish(SpeechMsg('', 'Base Case')
+		elif msg.data == 1:
+            script = scriptsPy.auth_deep
+			self.pub.publish(SpeechMsg('', 'Authoritative Deep')
+		elif msg.data == 2:
+            script = scriptsPy.auth_shal
+			self.pub.publish(SpeechMsg('', 'Authoritative Shallow')
+		elif msg.data == 3:
+            script = scriptsPy.like_deep
+			self.pub.publish(SpeechMsg('', 'Likeable Deep')
+		elif msg.data == 4:
+            script = scriptsPy.like_shal
+			self.pub.publish(SpeechMsg('', 'Likeable Shallow')
     
     def execute(self, userdata):
         self.button = ''
@@ -162,9 +181,10 @@ class Transit(smach.State):
         rospy.loginfo('Executing state TRANSIT ' + nstr)
         userdata.byeType = 'exit'
         
-        if userdata.number == 1:
+        '''if userdata.number == 1:
             userdata.number = 2
             return 'yes'
+		'''
 
         self.button = ''
         self.lpub.publish(LEDMsg('GREENFLASH'))
