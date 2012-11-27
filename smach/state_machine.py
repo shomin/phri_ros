@@ -62,6 +62,7 @@ class AttentionGet(smach.State):
 
         #self.dpub = rospy.Publisher("/drive", Int8)
         self.pub = rospy.Publisher("/speech", SpeechMsg)
+        self.lpub = rospy.Publisher("/leds", LEDMsg)
     
     def buttonsCB(self, msg):
         if msg.data:
@@ -74,6 +75,7 @@ class AttentionGet(smach.State):
 
     def execute(self, userdata):
         rospy.loginfo('Executing state ATTENTIONGET')
+        self.lpub.publish(LEDMsg(LEDMsg.GREENFLASH))
         userdata.byeType = 'AGLoop'
         self.teleop = False
         self.button = ''
