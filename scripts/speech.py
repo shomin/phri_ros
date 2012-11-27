@@ -23,7 +23,7 @@ class Speech:
 		rospy.init_node('pyspeech')
 		rospy.loginfo("Starting Speech")
 		self.sub = rospy.Subscriber("speech", SpeechMsg, self.cb)
-		self.pub = rospy.Publisher("done_speaking", Empty)
+		#self.pub = rospy.Publisher("done_speaking", Empty)
 		self.tts = Festival()
 	def cb(self, msg):
 		if(msg.voice == "clear"):
@@ -32,7 +32,7 @@ class Speech:
 			os.system("clear")
 			self.screenprint(msg.screen)
 			self.tts.say(msg.voice)
-			self.pub.publish(Empty())
+			#self.pub.publish(Empty())
 	def screenprint(self, data):
 		# We want the text to look like "Press the {red, fg=white, bg=red} button."  Assumes that any whitespace is a single space.  The string to be colored cannot contain any commas.  There must be a spaces before and after the {} section unless it is at one end of the string.  There must be spaces after the commas in the coloring arguments.
 
