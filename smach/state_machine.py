@@ -30,21 +30,22 @@ class Teleop(smach.State):
             self.button = 'yes'
 
     def scriptCB(self, msg):
-		if msg.data == 0:
+        global script
+        if msg.data == 0:
             script = scriptsPy.base
-			self.pub.publish(SpeechMsg('', 'Base Case')
-		elif msg.data == 1:
+            self.pub.publish(SpeechMsg('', 'Base Case'))
+        elif msg.data == 1:
             script = scriptsPy.auth_deep
-			self.pub.publish(SpeechMsg('', 'Authoritative Deep')
-		elif msg.data == 2:
+            self.pub.publish(SpeechMsg('', 'Authoritative Deep'))
+        elif msg.data == 2:
             script = scriptsPy.auth_shal
-			self.pub.publish(SpeechMsg('', 'Authoritative Shallow')
-		elif msg.data == 3:
+            self.pub.publish(SpeechMsg('', 'Authoritative Shallow'))
+        elif msg.data == 3:
             script = scriptsPy.like_deep
-			self.pub.publish(SpeechMsg('', 'Likeable Deep')
-		elif msg.data == 4:
+            self.pub.publish(SpeechMsg('', 'Likeable Deep'))
+        elif msg.data == 4:
             script = scriptsPy.like_shal
-			self.pub.publish(SpeechMsg('', 'Likeable Shallow')
+            self.pub.publish(SpeechMsg('', 'Likeable Shallow'))
     
     def execute(self, userdata):
         self.button = ''
@@ -60,7 +61,7 @@ class AttentionGet(smach.State):
         self.button = ''
         self.teleop = False
 
-        self.dpub = rospy.Publisher("/drive", Int8)
+        #self.dpub = rospy.Publisher("/drive", Int8)
         self.pub = rospy.Publisher("/speech", SpeechMsg)
     
     def buttonsCB(self, msg):
@@ -77,7 +78,7 @@ class AttentionGet(smach.State):
         userdata.byeType = 'AGLoop'
         self.teleop = False
         self.button = ''
-        self.dpub.publish(Int8(1))
+        #self.dpub.publish(Int8(1))
         # do something with the lights?
         ctr = 1
         while (not self.button) and (not self.teleop) and (not rospy.is_shutdown()):
@@ -85,7 +86,7 @@ class AttentionGet(smach.State):
                 self.pub.publish(SpeechMsg(script['attention'][0], script['attention'][1]))
             rospy.sleep(1.0)
             ctr = ctr + 1
-        self.dpub.publish(Int8(0))
+        #self.dpub.publish(Int8(0))
         if self.teleop:
             return 'teleop'
         else:
@@ -139,6 +140,7 @@ class Acknowledge(smach.State):
         self.button = ''
         self.spub = rospy.Publisher("/speech", SpeechMsg)
         self.lpub = rospy.Publisher("/leds", LEDMsg)
+        self.wifiVals = ['WIFIHIGH', 'WIFINORMAL', 'WIFIWEAK', 'WIFINORMAL']
 
     def buttonsCB(self, msg):
         if msg.data:
@@ -152,7 +154,7 @@ class Acknowledge(smach.State):
         userdata.byeType = 'exit'
         self.button = ''
         self.lpub.publish(LEDMsg('GREENFLASH'))
-        self.lpub.publish(LEDMsg('WIFINORMAL')) # should vary by case
+        self.lpub.publish(LEDMsg(self.wifiVals[userdata.number - 1]))
         self.spub.publish(SpeechMsg(script['acknowledge'+nstr][0], script['acknowledge'+nstr][1]))
         while not self.button and not rospy.is_shutdown():
             rospy.sleep(1.0)
@@ -180,11 +182,6 @@ class Transit(smach.State):
         nstr = str(userdata.number)
         rospy.loginfo('Executing state TRANSIT ' + nstr)
         userdata.byeType = 'exit'
-        
-        '''if userdata.number == 1:
-            userdata.number = 2
-            return 'yes'
-		'''
 
         self.button = ''
         self.lpub.publish(LEDMsg('GREENFLASH'))
