@@ -7,6 +7,7 @@ from phri_ros.msg import LEDMsg
 from geometry_msgs.msg import Twist
 from math import cos
 from math import pi
+import random
 
 
 class Drive:
@@ -14,6 +15,7 @@ class Drive:
 		self.sub = rospy.Subscriber("drive", Int8, self.drive_cb)
 		self.pub = rospy.Publisher("cmd_vel", Twist)
 		self.driving = False
+		self.stopped = False		
 		self.drive_Hz = 1.0
 		self.cmds = self.get_cmd()
 		rospy.Timer(rospy.Duration(1.0/self.drive_Hz), self.drive_loop)
@@ -31,13 +33,19 @@ class Drive:
 			vel.linear.x = cmd[0]
 			vel.angular.z = cmd[1]
 			self.pub.publish(vel)
-
+			self.stopped = False
+		elif not self.stopped:
+			self.pub.publish(Twist())
+			self.stopped = True
+			
 	def get_cmd(self):
 		while True:
-			yield [0.9, 0.0]
-			yield [0.7, 0.4]
-			yield [0.9, 0.0]
-			yield [0.7,- 0.4]
+			if random.random() < 0.015:
+				yield [0.4, 0.1]
+			elif random.random() < 0.03:
+				yield [0.4,- 0.1]
+			else:
+				yield [0.6, 0.0]
 
 class Leds:
 	def __init__(self):
