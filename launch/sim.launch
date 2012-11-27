@@ -3,4 +3,5 @@
   <node pkg="rosbridge" type="rosbridge.py" name="ros_bridge" output="screen"/> 	
   <node pkg="phri_ros" name="cp_server" type="cp_server_local.py" output="screen"/>
   <node pkg="phri_ros" name="speech" type="speech.py" output="screen"/>
+  <node pkg="phri_ros" name="smach" type="state_machine.py" output="screen"/>
 </launch>
