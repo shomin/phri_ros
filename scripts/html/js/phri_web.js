@@ -64,8 +64,8 @@ $( document ).delegate("#main_page", "pageinit", function() {
 	msg_fade('DOM Ready');
 	log('DOM Ready');
 
-	//ws_connect("192.168.1.1", "9090");
-	ws_connect("127.0.0.1", "9090");
+	ws_connect("192.168.1.1", "9090");
+	//ws_connect("127.0.0.1", "9090");
 
     $( "#lr" ).bind( "change", function(event, ui) {
 	connection.publish('/left_eye', 'std_msgs/ColorRGBA', '{"r":' + $('#lr')[0].value/100.0 + ',"g":' + $('#lg')[0].value/100.0 + ',"b":' + $('#lb')[0].value/100.0 + '}');	});
@@ -82,7 +82,7 @@ $( document ).delegate("#main_page", "pageinit", function() {
 	connection.publish('/right_eye', 'std_msgs/ColorRGBA', '{"r":' + $('#rr')[0].value/100.0 + ',"g":' + $('#rg')[0].value/100.0 + ',"b":' + $('#rb')[0].value/100.0 + '}');	});
 
     $( "#script" ).bind( "change", function(event, ui) {
-	connection.publish('/script', 'std_msgs/Int8', '{"data":' + $('#script')[0].value'}');});
+	connection.publish('/script', 'std_msgs/Int8', '{"data":' + $('#script')[0].value + '}');});
 
 
     var stage = new Kinetic.Stage({
@@ -255,7 +255,7 @@ function msg_fade(msg) {
 }
 
 function sub_to_webmsg(){
-    log('registering callback for /webmsg');
+    log('registering callback for /rosout');
     try {
 	connection.addHandler('/rosout', function webmsg_callback(msg){
 	    if(msg.level > 1){
@@ -269,13 +269,13 @@ function sub_to_webmsg(){
     }
     log('Registered Callback function');
 
-    log('Subscribing to /webmsg');
+    log('Subscribing to /rosout');
     try {
-        connection.callService('/rosjs/subscribe', '["/webmsg",0]', nop);
+        connection.callService('/rosjs/subscribe', '["/rosout",0]', nop);
     } catch (error) {
-        msg_fade('Problem subscribing to /webmsg');
-	log('Problem subscribing to /webmsg');
+        msg_fade('Problem subscribing to /rosout');
+	log('Problem subscribing to /rosout');
     }
-    log('Subscribed to /webmsg');
+    log('Subscribed to /rosout');
 }
 
