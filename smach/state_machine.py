@@ -22,6 +22,7 @@ class Teleop(smach.State):
         smach.State.__init__(self, outcomes=['yes', ''])
         self.sub = rospy.Subscriber("/buttons", Bool, self.buttonsCB)
         self.script_sub = rospy.Subscriber("/script", Int8, self.scriptCB)
+        self.pub = rospy.Publisher("/speech", SpeechMsg)
         self.button = ''
 
     def buttonsCB(self, msg):
@@ -47,6 +48,7 @@ class Teleop(smach.State):
             rospy.loginfo('Likeable Shallow')
     
     def execute(self, userdata):
+        self.pub.publish(SpeechMsg('clear', 'clear'))
         self.button = ''
         while not self.button and not rospy.is_shutdown():
             rospy.sleep(1.0)
