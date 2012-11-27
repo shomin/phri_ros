@@ -134,7 +134,7 @@ class Goodbye(smach.State):
 
 class Acknowledge(smach.State):
     def __init__(self):
-        smach.State.__init__(self, outcomes=['yes', 'no', 'done', ''], input_keys=['number'], output_keys=['number', 'byeType'])
+        smach.State.__init__(self, outcomes=['yes', 'no', ''], input_keys=['number'], output_keys=['number', 'byeType'])
         self.sub = rospy.Subscriber("/buttons", Bool, self.buttonsCB)
         self.button = ''
         self.spub = rospy.Publisher("/speech", SpeechMsg)
@@ -153,19 +153,22 @@ class Acknowledge(smach.State):
         userdata.byeType = 'exit'
         self.button = ''
         self.lpub.publish(LEDMsg(LEDMsg.GREENFLASH))
-        self.lpub.publish(LEDMsg(self.wifiVals[userdata.number - 1]))
+        if userdata.number != 1:
+            self.spub.publish(SpeechMsg('Testing wifi signal.', 'Testing wifi signal.'))
+            self.lpub.publish(LEDMsg(self.wifiVals[userdata.number - 1]))
+            rospy.sleep(8.0)
         self.spub.publish(SpeechMsg(script['acknowledge'+nstr][0], script['acknowledge'+nstr][1]))
         while not self.button and not rospy.is_shutdown():
             rospy.sleep(1.0)
-        if userdata.number == 4 and not rospy.is_shutdown():
+        """if userdata.number == 4 and not rospy.is_shutdown():
             userdata.byeType = 'complete'
             return 'done'
-        else:
-            return self.button
+        else:"""
+        return self.button
 
 class Transit(smach.State):
     def __init__(self):
-        smach.State.__init__(self, outcomes=['yes', 'no', ''], input_keys=['number'], output_keys=['number', 'byeType'])
+        smach.State.__init__(self, outcomes=['yes', 'no', 'done', ''], input_keys=['number'], output_keys=['number', 'byeType'])
         self.sub = rospy.Subscriber("/buttons", Bool, self.buttonsCB)
         self.button = ''
         self.spub = rospy.Publisher("/speech", SpeechMsg)
@@ -181,6 +184,10 @@ class Transit(smach.State):
         nstr = str(userdata.number)
         rospy.loginfo('Executing state TRANSIT ' + nstr)
         userdata.byeType = 'exit'
+
+        if userdata.number == 4:
+            userdata.byeType = 'complete'
+            return 'done'
 
         self.button = ''
         self.lpub.publish(LEDMsg(LEDMsg.GREENFLASH))
@@ -204,8 +211,8 @@ def main():
         smach.StateMachine.add('ATTENTIONGET', AttentionGet(), transitions={'yes':'INTRODUCTION', 'no':'GOODBYE', 'teleop':'TELEOP', '':'done'})
         smach.StateMachine.add('INTRODUCTION', Introduction(), transitions={'yes':'ACKNOWLEDGE', 'no':'GOODBYE', '':'done'})
         smach.StateMachine.add('GOODBYE', Goodbye(), transitions={'AGLoop':'ATTENTIONGET', 'exit':'TELEOP', 'complete':'TELEOP'})
-        smach.StateMachine.add('ACKNOWLEDGE', Acknowledge(), transitions={'yes':'TRANSIT', 'no':'GOODBYE', 'done':'GOODBYE', '':'done'})
-        smach.StateMachine.add('TRANSIT', Transit(), transitions={'yes':'ACKNOWLEDGE', 'no':'GOODBYE', '':'done'})
+        smach.StateMachine.add('ACKNOWLEDGE', Acknowledge(), transitions={'yes':'TRANSIT', 'no':'GOODBYE', '':'done'})
+        smach.StateMachine.add('TRANSIT', Transit(), transitions={'yes':'ACKNOWLEDGE', 'no':'GOODBYE', 'done':'GOODBYE', '':'done'})
 
     # Create and start the introspection server
     sis = smach_ros.IntrospectionServer('server_name', sm, '/SM_ROOT')
