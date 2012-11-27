@@ -3,7 +3,6 @@ var msgbox = null;
 var hmsg_timeout;
 var mtimer_on =false;
 var connection;
-var last_webmsg;
 var last_bsmsg;
 var in_circ = false;
 var circle;
@@ -53,8 +52,8 @@ function ws_connect(address, port) {
 
 		//subscribe to web_message (later we'll make this some filtered form of rosout
 		sub_to_webmsg();
-		sub_to_ballbot_state();
-		sub_to_slider();
+		//sub_to_ballbot_state();
+		//sub_to_slider();
 		$(".ros_col").hide('slow');
     });
 }
@@ -65,8 +64,8 @@ $( document ).delegate("#main_page", "pageinit", function() {
 	msg_fade('DOM Ready');
 	log('DOM Ready');
 
-	ws_connect("192.168.1.1", "9090");
-	//ws_connect("127.0.0.1", "9090");
+	//ws_connect("192.168.1.1", "9090");
+	ws_connect("127.0.0.1", "9090");
 
     $( "#lr" ).bind( "change", function(event, ui) {
 	connection.publish('/left_eye', 'std_msgs/ColorRGBA', '{"r":' + $('#lr')[0].value/100.0 + ',"g":' + $('#lg')[0].value/100.0 + ',"b":' + $('#lb')[0].value/100.0 + '}');	});
@@ -81,6 +80,10 @@ $( document ).delegate("#main_page", "pageinit", function() {
 	connection.publish('/right_eye', 'std_msgs/ColorRGBA', '{"r":' + $('#rr')[0].value/100.0 + ',"g":' + $('#rg')[0].value/100.0 + ',"b":' + $('#rb')[0].value/100.0 + '}');	});
     $( "#rb" ).bind( "change", function(event, ui) {
 	connection.publish('/right_eye', 'std_msgs/ColorRGBA', '{"r":' + $('#rr')[0].value/100.0 + ',"g":' + $('#rg')[0].value/100.0 + ',"b":' + $('#rb')[0].value/100.0 + '}');	});
+
+    $( "#script" ).bind( "change", function(event, ui) {
+	connection.publish('/script', 'std_msgs/Int8', '{"data":' + $('#script')[0].value'}');});
+
 
     var stage = new Kinetic.Stage({
         container: 'kintest',
@@ -251,4 +254,28 @@ function msg_fade(msg) {
 	}, 1500);
 }
 
+function sub_to_webmsg(){
+    log('registering callback for /webmsg');
+    try {
+	connection.addHandler('/rosout', function webmsg_callback(msg){
+	    if(msg.level > 1){
+		log(msg.msg);
+	    }
+	});
+    } catch (error) {
+	msg_fade('Problem registering webmsg callback!');
+	log('Problem registering webmsg callback!');
+	return;
+    }
+    log('Registered Callback function');
+
+    log('Subscribing to /webmsg');
+    try {
+        connection.callService('/rosjs/subscribe', '["/webmsg",0]', nop);
+    } catch (error) {
+        msg_fade('Problem subscribing to /webmsg');
+	log('Problem subscribing to /webmsg');
+    }
+    log('Subscribed to /webmsg');
+}
 
