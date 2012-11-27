@@ -2,7 +2,7 @@
 
 base = {"attention":["Please press the green button.","Please press the {GREEN, fg=white, bg=green} button."],
 
-"introduction":["If you are willeen to carry me somewhere, please press the green button again.,,,Otherwise, please press the red button.", "Will you help me? Please press {GREEN, fg=white, bg=green} button if yes, {RED, fg=white, bg=red} if no."],
+"introduction":["If you are willeen to carry me somewhere, please press the green button again,,, Otherwise, please press the red button.", "Will you help me? Please press {GREEN, fg=white, bg=green} button if yes, {RED, fg=white, bg=red} if no."],
 
 "acknowledge1":["Please take me to the hallway in front of the information desk. Press the green button when we start.", "Take me to the info desk? Press the {GREEN, fg=white, bg=green} button if yes, {RED, fg=white, bg=red} if no."],
 
