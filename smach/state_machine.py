@@ -154,7 +154,7 @@ class Acknowledge(smach.State):
         self.button = ''
         self.lpub.publish(LEDMsg(LEDMsg.GREENFLASH))
         if userdata.number != 1:
-            self.spub.publish(SpeechMsg('Testing wifi signal.', 'Testing wifi signal.'))
+            self.spub.publish(SpeechMsg('Testing why fie signal.', 'Testing wifi signal.'))
             self.lpub.publish(LEDMsg(self.wifiVals[userdata.number - 1]))
             rospy.sleep(8.0)
         self.spub.publish(SpeechMsg(script['acknowledge'+nstr][0], script['acknowledge'+nstr][1]))

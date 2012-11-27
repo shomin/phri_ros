@@ -2,13 +2,13 @@
 
 base = {"attention":["Please press the green button.","Please press the {GREEN, fg=white, bg=green} button."],
 
-"introduction":["If you are willing to carry me somewhere, please press the green button again. Otherwise, please press the red button.", "Will you help me? Please press {GREEN, fg=white, bg=green} button if yes, {RED, fg=white, bg=red} if no."],
+"introduction":["If you are willeen to carry me somewhere, please press the green button again.,,,Otherwise, please press the red button.", "Will you help me? Please press {GREEN, fg=white, bg=green} button if yes, {RED, fg=white, bg=red} if no."],
 
-"acknowledge1":["Please take me to the hallway in front of the information desk. Press the green button when we start.", "Take me to the info desk? Press the the {GREEN, fg=white, bg=green} button if yes, {RED, fg=white, bg=red} if no."],
+"acknowledge1":["Please take me to the hallway in front of the information desk. Press the green button when we start.", "Take me to the info desk? Press the {GREEN, fg=white, bg=green} button if yes, {RED, fg=white, bg=red} if no."],
 
 "transit1":["Please press the green button again when we arrive.", "Press the {GREEN, fg=white, bg=green} button when we arrive."],
 
-"acknowledge2":["Now please take me to the hallway in front of the Wiegand Gym.  Press the green button if you will.", "Take me to Wiegand Gym? Press the {GREEN, fg=white, bg=green} button if yes, {RED, fg=white, bg=red} if no."],
+"acknowledge2":["Now please take me to the hallway in front of the why gand Gym.  Press the green button if you will.", "Take me to Wiegand Gym? Press the {GREEN, fg=white, bg=green} button if yes, {RED, fg=white, bg=red} if no."],
 
 "transit2":["Please press the green button again when we arrive.", "Press the {GREEN, fg=white, bg=green} button when we arrive."],
 
@@ -16,11 +16,11 @@ base = {"attention":["Please press the green button.","Please press the {GREEN, 
 
 "transit3":["Please press the green button again when we arrive.", "Press the {GREEN, fg=white, bg=green} button when we arrive."],
 
-"acknowledge4":["Now please lift me as high as you can.  If you are willing, please climb on top of that chair.", "Lift me up?  Press the {GREEN, fg=white, bg=green} button if you will."],
+"acknowledge4":["Now please lift me as high as you can.  If you are willeen, please climb on top of that chare.", "Lift me up?  Press the {GREEN, fg=white, bg=green} button if you will."],
 
-"conclusion":["Thank you.  Please return me to the researcher, who should be approaching you now.", "Thank you.  Please return me to the researcher."],
+"conclusion":["Thank you.  Please return me to the researcher, who should be approach ing you now.", "Thank you.  Please return me to the researcher."],
 
-"redButton":["Please leave me for the next participant.", "Please leave me for the next participant."]}
+"redButton":["Please leave me for someone else to find.", "Please leave me for someone else to find."]}
 
 
 auth_deep = {"attention":["Hi!  I need you to help me with an important task.  If you can help me, please pick me up and press the green button.","Please press the {GREEN, fg=white, bg=green} button."],
