@@ -45,7 +45,7 @@ class Gpio:
 
                 self.pwm_range = 50
                 self.button_Hz = 20.0
-                self.button_offtime = rospy.Duration(1.0)
+                self.button_offtime = rospy.Duration(4.0)
 
                 rospy.loginfo("Starting Soft PWM Timers")
                 wp.softPwmCreate(17, 0, self.pwm_range)
