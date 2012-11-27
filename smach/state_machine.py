@@ -83,7 +83,7 @@ class AttentionGet(smach.State):
         # do something with the lights?
         ctr = 1
         while (not self.button) and (not self.teleop) and (not rospy.is_shutdown()):
-            if ctr % 10 == 0:
+            if ctr % 20 == 0:
                 self.pub.publish(SpeechMsg(script['attention'][0], script['attention'][1]))
             rospy.sleep(1.0)
             ctr = ctr + 1
