@@ -115,10 +115,12 @@ class Gpio:
 		if self.io.digitalRead(15)==0:
 			if(event.current_real - self.yes_time) > self.button_offtime:
 				self.button_pub.publish(Bool(True))
+				rospy.loginfo('Yes Button Pressed')
 				self.yes_time = event.current_real
 		if self.io.digitalRead(14)==0:
 			if(event.current_real - self.no_time) > self.button_offtime:
 				self.button_pub.publish(Bool(False))
+				rospy.loginfo('No Button Pressed')
 				self.no_time = event.current_real
 
 	def twistCallback(self,msg):
