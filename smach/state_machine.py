@@ -140,7 +140,7 @@ class Acknowledge(smach.State):
         self.button = ''
         self.spub = rospy.Publisher("/speech", SpeechMsg)
         self.lpub = rospy.Publisher("/leds", LEDMsg)
-        self.wifiVals = [LEDMsg.WIFIHIGH, LEDMsg.WIFINORMAL, LEDMsg.WIFIWEAK, LEDMsg.WIFINORMAL]
+        self.wifiVals = [LEDMsg.WIFIHIGH, LEDMsg.WIFINORMAL, LEDMsg.WIFILOW, LEDMsg.WIFINORMAL]
 
     def buttonsCB(self, msg):
         if msg.data:
