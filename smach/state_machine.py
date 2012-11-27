@@ -22,7 +22,6 @@ class Teleop(smach.State):
         smach.State.__init__(self, outcomes=['yes', ''])
         self.sub = rospy.Subscriber("/buttons", Bool, self.buttonsCB)
         self.script_sub = rospy.Subscriber("/script", Int8, self.scriptCB)
-        self.pub = rospy.Publisher("/speech", SpeechMsg)		
         self.button = ''
 
     def buttonsCB(self, msg):
@@ -33,19 +32,19 @@ class Teleop(smach.State):
         global script
         if msg.data == 0:
             script = scriptsPy.base
-            self.pub.publish(SpeechMsg('', 'Base Case'))
+            rospy.loginfo('Base Case')
         elif msg.data == 1:
             script = scriptsPy.auth_deep
-            self.pub.publish(SpeechMsg('', 'Authoritative Deep'))
+            rospy.loginfo('Authoritative Deep')
         elif msg.data == 2:
             script = scriptsPy.auth_shal
-            self.pub.publish(SpeechMsg('', 'Authoritative Shallow'))
+            rospy.loginfo('Authoritative Shallow')
         elif msg.data == 3:
             script = scriptsPy.like_deep
-            self.pub.publish(SpeechMsg('', 'Likeable Deep'))
+            rospy.loginfo('Likeable Deep')
         elif msg.data == 4:
             script = scriptsPy.like_shal
-            self.pub.publish(SpeechMsg('', 'Likeable Shallow'))
+            rospy.loginfo('Likeable Shallow')
     
     def execute(self, userdata):
         self.button = ''
