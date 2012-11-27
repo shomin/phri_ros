@@ -19,23 +19,23 @@ script = scriptsPy.base
 
 class Teleop(smach.State):
     def __init__(self):
-        smach.State.__init__(self, outcomes=['yes'])
+        smach.State.__init__(self, outcomes=['yes', ''])
         self.sub = rospy.Subscriber("/buttons", Bool, self.buttonsCB)
-        self.yes = False
+        self.button = ''
 
     def buttonsCB(self, msg):
         if msg.data:
-            self.yes = True
+            self.button = 'yes'
     
     def execute(self, userdata):
-        self.yes = False
-        while not self.yes:
+        self.button = ''
+        while not self.button and not rospy.is_shutdown():
             rospy.sleep(1.0)
-        return 'yes'
+        return self.button
 
 class AttentionGet(smach.State):
     def __init__(self):
-        smach.State.__init__(self, outcomes=['yes', 'no', 'teleop'], output_keys=['byeType'])
+        smach.State.__init__(self, outcomes=['yes', 'no', 'teleop', ''], output_keys=['byeType'])
         self.sub = rospy.Subscriber("/buttons", Bool, self.buttonsCB)
         self.tsub = rospy.Subscriber("/teleop", Empty, self.teleopCB)
         self.button = ''
@@ -60,9 +60,12 @@ class AttentionGet(smach.State):
         self.button = ''
         self.dpub.publish(Int8(1))
         # do something with the lights?
-        while (not self.button) and (not self.teleop):
-            self.pub.publish(SpeechMsg(script['attention'][0], script['attention'][1]))
-            rospy.sleep(3.0) # may want to adjust frequency/only speak on some loops
+        ctr = 1
+        while (not self.button) and (not self.teleop) and (not rospy.is_shutdown()):
+            if ctr % 10 == 0:
+                self.pub.publish(SpeechMsg(script['attention'][0], script['attention'][1]))
+            rospy.sleep(1.0)
+            ctr = ctr + 1
         self.dpub.publish(Int8(0))
         if self.teleop:
             return 'teleop'
@@ -71,7 +74,7 @@ class AttentionGet(smach.State):
 
 class Introduction(smach.State):
     def __init__(self):
-        smach.State.__init__(self, outcomes=['yes', 'no'], output_keys=['byeType', 'number'])
+        smach.State.__init__(self, outcomes=['yes', 'no', ''], output_keys=['byeType', 'number'])
         self.sub = rospy.Subscriber("/buttons", Bool, self.buttonsCB)
         self.button = ''
         self.spub = rospy.Publisher("/speech", SpeechMsg)
@@ -90,7 +93,7 @@ class Introduction(smach.State):
         self.button = ''
         self.lpub.publish(LEDMsg('GREENFLASH'))
         self.spub.publish(SpeechMsg(script['introduction'][0], script['introduction'][1]))
-        while not self.button:
+        while not self.button and not rospy.is_shutdown():
             rospy.sleep(1.0)
         return self.button
 
@@ -112,7 +115,7 @@ class Goodbye(smach.State):
 
 class Acknowledge(smach.State):
     def __init__(self):
-        smach.State.__init__(self, outcomes=['yes', 'no', 'done'], input_keys=['number'], output_keys=['number', 'byeType'])
+        smach.State.__init__(self, outcomes=['yes', 'no', 'done', ''], input_keys=['number'], output_keys=['number', 'byeType'])
         self.sub = rospy.Subscriber("/buttons", Bool, self.buttonsCB)
         self.button = ''
         self.spub = rospy.Publisher("/speech", SpeechMsg)
@@ -132,9 +135,9 @@ class Acknowledge(smach.State):
         self.lpub.publish(LEDMsg('GREENFLASH'))
         self.lpub.publish(LEDMsg('WIFINORMAL')) # should vary by case
         self.spub.publish(SpeechMsg(script['acknowledge'+nstr][0], script['acknowledge'+nstr][1]))
-        while not self.button:
+        while not self.button and not rospy.is_shutdown():
             rospy.sleep(1.0)
-        if userdata.number == 4:
+        if userdata.number == 4 and not rospy.is_shutdown():
             userdata.byeType = 'complete'
             return 'done'
         else:
@@ -142,7 +145,7 @@ class Acknowledge(smach.State):
 
 class Transit(smach.State):
     def __init__(self):
-        smach.State.__init__(self, outcomes=['yes', 'no'], input_keys=['number'], output_keys=['number', 'byeType'])
+        smach.State.__init__(self, outcomes=['yes', 'no', ''], input_keys=['number'], output_keys=['number', 'byeType'])
         self.sub = rospy.Subscriber("/buttons", Bool, self.buttonsCB)
         self.button = ''
         self.spub = rospy.Publisher("/speech", SpeechMsg)
@@ -166,7 +169,7 @@ class Transit(smach.State):
         self.button = ''
         self.lpub.publish(LEDMsg('GREENFLASH'))
         self.spub.publish(SpeechMsg(script['transit'+nstr][0], script['transit'+nstr][1]))
-        while not self.button:
+        while not self.button and not rospy.is_shutdown():
             rospy.sleep(1.0)
         userdata.number = userdata.number + 1
         return self.button 
@@ -176,25 +179,25 @@ def main():
     rospy.init_node('smach_state_machine')
 
     # Create a SMACH state machine
-    sm = smach.StateMachine(outcomes=[])
+    sm = smach.StateMachine(outcomes=['done'])
 
     # Open the container
     with sm:
         # Add states to the container
-        smach.StateMachine.add('TELEOP', Teleop(), transitions={'yes':'ATTENTIONGET'})
-        smach.StateMachine.add('ATTENTIONGET', AttentionGet(), transitions={'yes':'INTRODUCTION', 'no':'GOODBYE', 'teleop':'TELEOP'})
-        smach.StateMachine.add('INTRODUCTION', Introduction(), transitions={'yes':'ACKNOWLEDGE', 'no':'GOODBYE'})
+        smach.StateMachine.add('TELEOP', Teleop(), transitions={'yes':'ATTENTIONGET', '':'done'})
+        smach.StateMachine.add('ATTENTIONGET', AttentionGet(), transitions={'yes':'INTRODUCTION', 'no':'GOODBYE', 'teleop':'TELEOP', '':'done'})
+        smach.StateMachine.add('INTRODUCTION', Introduction(), transitions={'yes':'ACKNOWLEDGE', 'no':'GOODBYE', '':'done'})
         smach.StateMachine.add('GOODBYE', Goodbye(), transitions={'AGLoop':'ATTENTIONGET', 'exit':'TELEOP', 'complete':'TELEOP'})
-        smach.StateMachine.add('ACKNOWLEDGE', Acknowledge(), transitions={'yes':'TRANSIT', 'no':'GOODBYE', 'done':'GOODBYE'})
-        smach.StateMachine.add('TRANSIT', Transit(), transitions={'yes':'ACKNOWLEDGE', 'no':'GOODBYE'})
+        smach.StateMachine.add('ACKNOWLEDGE', Acknowledge(), transitions={'yes':'TRANSIT', 'no':'GOODBYE', 'done':'GOODBYE', '':'done'})
+        smach.StateMachine.add('TRANSIT', Transit(), transitions={'yes':'ACKNOWLEDGE', 'no':'GOODBYE', '':'done'})
 
     # Create and start the introspection server
     sis = smach_ros.IntrospectionServer('server_name', sm, '/SM_ROOT')
     sis.start()
 
     # Execute SMACH plan
-    outcome = sm.execute()
-    rospy.spin()
+    while not rospy.is_shutdown():
+        outcome = sm.execute()
     sis.stop()
 
 
