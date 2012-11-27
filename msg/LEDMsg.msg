@@ -3,3 +3,5 @@ int8 GREENFLASH=1
 int8 WIFILOW=2
 int8 WIFINORMAL=3
 int8 WIFIHIGH=4
+
+int8 code
