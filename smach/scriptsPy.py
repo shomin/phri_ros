@@ -1,14 +1,27 @@
 # -*- coding: utf-8 -*-
-base = {"attention":["Please press the {GREEN, fg=white, bg=green} button.","Please press the {GREEN, fg=white, bg=green} button."],
-"introduction":["If you are willing to take me to the hallway in front of the information desk, please press the {GREEN, fg=white, bg=green} button again.  Otherwise, please press the {RED, fg=white, bg=red} button.","If you are willing to take me to the hallway in front of the information desk, please press the {GREEN, fg=white, bg=green} button again.  Otherwise, please press the {RED, fg=white, bg=red} button."],
-"acknowledge1":["Please take me to the hallway in front of the information desk. Press the {GREEN, fg=white, bg=green} button when we arrive.","Please take me to the hallway in front of the information desk. Press the {GREEN, fg=white, bg=green} button when we arrive."],
-"acknowledge2":["Now please take me to the hallway in front of the Wiegand Gym.  Press the {GREEN, fg=white, bg=green} button when we arrive.","Now please take me to the hallway in front of the Wiegand Gym.  Press the {GREEN, fg=white, bg=green} button when we arrive."],
-"transit2":["",""],
-"acknowledge3":["Now please take me up the nearby staircase.  Press the {GREEN, fg=white, bg=green} button when we arrive.","Now please take me up the nearby staircase.  Press the {GREEN, fg=white, bg=green} button when we arrive."],
-"transit3":["",""],
-"acknowledge4":["Now please lift me as high as you can.  If you are willing, please climb on top of that chair.","Now please lift me as high as you can.  If you are willing, please climb on top of that chair."],
-"conclusion":["Thank you.  Please return me to the researcher, who should be approaching you now.","Thank you.  Please return me to the researcher, who should be approaching you now."],
-"redButton":["Please leave me for the next participant.","Please leave me for the next participant."]}
+
+base = {"attention":["Please press the green button.","Please press the {GREEN, fg=white, bg=green} button."],
+
+"introduction":["If you are willing to carry me somewhere, please press the green button again. Otherwise, please press the red button.", "Will you help me? Please press {GREEN, fg=white, bg=green} button if yes, {RED, fg=white, bg=red} if no."],
+
+"acknowledge1":["Please take me to the hallway in front of the information desk. Press the green button when we start.", "Take me to the info desk? Press the the {GREEN, fg=white, bg=green} button if yes, {RED, fg=white, bg=red} if no."],
+
+"transit1":["Please press the green button again when we arrive.", "Press the {GREEN, fg=white, bg=green} button when we arrive."],
+
+"acknowledge2":["Now please take me to the hallway in front of the Wiegand Gym.  Press the green button if you will.", "Take me to Wiegand Gym? Press the {GREEN, fg=white, bg=green} button if yes, {RED, fg=white, bg=red} if no."],
+
+"transit2":["Please press the green button again when we arrive.", "Press the {GREEN, fg=white, bg=green} button when we arrive."],
+
+"acknowledge3":["Now please take me up the nearby staircase.  Press the green button when we leave.",  "Take me up the stairs? Press the {GREEN, fg=white, bg=green} button if yes, {RED, fg=white, bg=red} if no."],
+
+"transit3":["Please press the green button again when we arrive.", "Press the {GREEN, fg=white, bg=green} button when we arrive."],
+
+"acknowledge4":["Now please lift me as high as you can.  If you are willing, please climb on top of that chair.", "Lift me up?  Press the {GREEN, fg=white, bg=green} button if you will."],
+
+"conclusion":["Thank you.  Please return me to the researcher, who should be approaching you now.", "Thank you.  Please return me to the researcher."],
+
+"redButton":["Please leave me for the next participant.", "Please leave me for the next participant."]}
+
 
 auth_deep = {"attention":["Hi!  I need you to help me with an important task.  If you can help me, please pick me up and press the {GREEN, fg=white, bg=green} button.","Hi!  I need you to help me with an important task.  If you can help me, please pick me up and press the {GREEN, fg=white, bg=green} button."],
 "introduction":["Thanks.  My job is to gather important data on WiFi coverage on campus.  Once I have this data, I will be able to build maps that can tell other robots where they can travel on campus while staying in communication with one another.  I move very slowly though, so I need you to carry me around.  I’ll let you know where we need to be and when you should stop.  These will be important places where robots will want to travel.  If you can do this, press the {GREEN, fg=white, bg=green} button.  Otherwise, put me back down and press the {RED, fg=white, bg=red} button.","Thanks.  My job is to gather important data on WiFi coverage on campus.  Once I have this data, I will be able to build maps that can tell other robots where they can travel on campus while staying in communication with one another.  I move very slowly though, so I need you to carry me around.  I’ll let you know where we need to be and when you should stop.  These will be important places where robots will want to travel.  If you can do this, press the {GREEN, fg=white, bg=green} button.  Otherwise, put me back down and press the {RED, fg=white, bg=red} button."],
