@@ -63,9 +63,9 @@ class Leds:
 		elif msg.code == LEDMsg.WIFILOW:
 			self.chirp()
 		elif msg.code == LEDMsg.WIFINORMAL:
-			self.chirp(t_f = 5.0, freq=[1.0, 0.1], amp=[0.5, 0.5, 1.0])			
+			self.chirp(t_f = 6.5, freq=[1.0, 0.1], amp=[0.5, 0.5, 1.0])			
 		elif msg.code == LEDMsg.WIFIHIGH:
-			self.chirp(t_f = 3.0, freq=[0.5, 0.1], amp=[0.0, 1.0, 1.0])			
+			self.chirp(t_f = 5.0, freq=[0.5, 0.1], amp=[0.0, 1.0, 1.0])			
 			
 	def flash(self, color):
 		self.pub(color)
