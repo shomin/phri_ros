@@ -53,7 +53,7 @@ class Leds:
 		self.lpub = rospy.Publisher("left_eye", ColorRGBA)
 		self.rpub = rospy.Publisher("right_eye", ColorRGBA)
 		self.default = ColorRGBA(0.0, 1.0, 1.0, 0.0)
-		self.flash_delay = 2.0
+		self.flash_delay = 0.7
 
 	def led_cb(self, msg):
 		if msg.code == LEDMsg.REDFLASH:

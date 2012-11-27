@@ -114,7 +114,6 @@ class Gpio:
 	def check_buttons(self, event):
 		if self.io.digitalRead(15)==0:
 			if(event.current_real - self.yes_time) > self.button_offtime:
-				self.ybut_pub.publish(Empty())
 				self.button_pub.publish(Bool(True))
 				self.yes_time = event.current_real
 		if self.io.digitalRead(14)==0:
