@@ -103,12 +103,12 @@ class Gpio:
 
 	def rmotor(self, msg):
 		if msg.data>=0.0:
-			self.io.digitalWrite(10,0)
-			self.io.digitalWrite(9,1)
-			wp.softPwmWrite(25, int(msg.data*self.pwm_range))
-		else:
 			self.io.digitalWrite(10,1)
 			self.io.digitalWrite(9,0)
+			wp.softPwmWrite(25, int(msg.data*self.pwm_range))
+		else:
+			self.io.digitalWrite(10,0)
+			self.io.digitalWrite(9,1)
 			wp.softPwmWrite(25, int(-msg.data*self.pwm_range))
 
 	def check_buttons(self, event):
