@@ -86,7 +86,9 @@ class AttentionGet(smach.State):
         ctr = 1
         while (not self.button) and (not self.teleop) and (not rospy.is_shutdown()):
             if ctr % 20 == 0:
-                self.pub.publish(SpeechMsg(script['attention'][0], script['attention'][1]))
+                self.pub.publish(SpeechMsg(script['attention'][0], ''))
+                rospy.sleep(5.0)
+                self.pub.publish(SpeechMsg('', script['attention'][1]))
             rospy.sleep(1.0)
             ctr = ctr + 1
         #self.dpub.publish(Int8(0))
@@ -115,7 +117,9 @@ class Introduction(smach.State):
         userdata.number = 1
         self.button = ''
         self.lpub.publish(LEDMsg(LEDMsg.GREENFLASH))
-        self.spub.publish(SpeechMsg(script['introduction'][0], script['introduction'][1]))
+        self.spub.publish(SpeechMsg(script['introduction'][0], ''))
+        rospy.sleep(5.0)
+        self.spub.publish(SpeechMsg('', script['introduction'][1]))
         while not self.button and not rospy.is_shutdown():
             rospy.sleep(1.0)
         return self.button
@@ -129,7 +133,9 @@ class Goodbye(smach.State):
     def execute(self, userdata):
         rospy.loginfo('Executing state GOODBYE')
         if userdata.byeType == 'complete':
-            self.spub.publish(SpeechMsg(script['conclusion'][0], script['conclusion'][1]))
+            self.spub.publish(SpeechMsg(script['conclusion'][0], ''))
+            rospy.sleep(5.0)
+            self.spub.publish(SpeechMsg('', script['conclusion'][1]))
         else:
             self.lpub.publish(LEDMsg(LEDMsg.REDFLASH))
             self.spub.publish(SpeechMsg(script['redButton'][0], script['redButton'][1]))
@@ -161,7 +167,9 @@ class Acknowledge(smach.State):
             self.spub.publish(SpeechMsg('Testing why figh signal.', 'Testing wifi signal.'))
             self.lpub.publish(LEDMsg(self.wifiVals[userdata.number - 1]))
             rospy.sleep(8.0)
-        self.spub.publish(SpeechMsg(script['acknowledge'+nstr][0], script['acknowledge'+nstr][1]))
+        self.spub.publish(SpeechMsg(script['acknowledge'+nstr][0], ''))
+        rospy.sleep(5.0)
+        self.spub.publish(SpeechMsg('', script['acknowledge'+nstr][1]))
         while not self.button and not rospy.is_shutdown():
             rospy.sleep(1.0)
         """if userdata.number == 4 and not rospy.is_shutdown():
@@ -195,7 +203,9 @@ class Transit(smach.State):
 
         self.button = ''
         self.lpub.publish(LEDMsg(LEDMsg.GREENFLASH))
-        self.spub.publish(SpeechMsg(script['transit'+nstr][0], script['transit'+nstr][1]))
+        self.spub.publish(SpeechMsg(script['transit'+nstr][0], ''))
+        rospy.sleep(5.0)
+        self.spub.publish(SpeechMsg('', script['transit'+nstr][1]))
         while not self.button and not rospy.is_shutdown():
             rospy.sleep(1.0)
         userdata.number = userdata.number + 1
